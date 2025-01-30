@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "deepseek-assistant.cihuy",
-        "title": "Mau Nanya Apa?"
+        "command": "extension.askDeepseek",
+        "title": "Tanya Deepseek"
       }
     ]
   },
@@ -47,6 +47,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "axios": "^1.7.9"
+    "axios": "^1.7.9",
+    "ollama": "^0.5.12"
   }
 }
