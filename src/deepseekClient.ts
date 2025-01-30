@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export async function queryDeepseek(prompt: string) {
     try {
+        const startTime = Date.now();
         const response = await axios({
             method: 'post',
             url: 'http://localhost:11434/api/generate',
@@ -9,7 +10,7 @@ export async function queryDeepseek(prompt: string) {
                 model: 'deepseek-r1:8b',
                 prompt: prompt,
             },
-            responseType: 'stream' // Menangani streaming response
+            responseType: 'stream'
         });
 
         let fullResponse = '';
@@ -23,6 +24,9 @@ export async function queryDeepseek(prompt: string) {
                         fullResponse += jsonData.response;
                     }
                     if (jsonData.done) {
+                        const endTime = Date.now(); // Waktu selesai response
+                        const elapsedTime = (endTime - startTime) / 1000; // Dalam detik
+                        console.log(`Response time: ${elapsedTime.toFixed(2)} seconds`);
                         resolve(fullResponse);
                     }
                 } catch (error) {
@@ -31,6 +35,9 @@ export async function queryDeepseek(prompt: string) {
             });
 
             response.data.on('end', () => {
+                const endTime = Date.now();
+                const elapsedTime = (endTime - startTime) / 1000;
+                console.log(`Response time: ${elapsedTime.toFixed(2)} seconds`);
                 resolve(fullResponse || 'No response from AI');
             });
 
